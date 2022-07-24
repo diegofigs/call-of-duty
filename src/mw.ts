@@ -1,10 +1,16 @@
 import { sendRequest } from "./api";
-import { CombatHistory, FullData, MatchIndex, platforms } from "./types";
-import { parsePlayer } from "./utils";
+import {
+  CombatHistory,
+  FullData,
+  MatchIndex,
+  platforms,
+  PlatformValues,
+} from "./types";
+import { parsePlayer, parsePlayerPlatform } from "./utils";
 
 export async function fullData(
   gamertag: string,
-  platform: platforms
+  platform: platforms | PlatformValues
 ): Promise<{ success: string; data: FullData }> {
   const { lookupType, parsedGamertag, parsedPlatform } = parsePlayer(
     gamertag,
@@ -17,7 +23,7 @@ export async function fullData(
 
 export async function combatHistory(
   gamertag: string,
-  platform: platforms,
+  platform: platforms | PlatformValues,
   startTime = 0,
   endTime = 0
 ): Promise<{ success: string; data: CombatHistory }> {
@@ -34,14 +40,14 @@ export async function combatHistoryWithDate(
   gamertag: string,
   startTime: number,
   endTime: number,
-  platform: platforms
+  platform: platforms | PlatformValues
 ) {
   return combatHistory(gamertag, platform, startTime, endTime);
 }
 
 export async function breakdown(
   gamertag: string,
-  platform: platforms,
+  platform: platforms | PlatformValues,
   startTime = 0,
   endTime = 0
 ): Promise<{ success: string; data: Array<MatchIndex> }> {
@@ -58,7 +64,7 @@ export const breakdownWithDate = async (
   gamertag: string,
   startTime: number,
   endTime: number,
-  platform: platforms
+  platform: platforms | PlatformValues
 ) => {
   return breakdown(gamertag, platform, startTime, endTime);
 };
@@ -73,7 +79,7 @@ export const seasonloot = async (gamertag: string, platform: platforms) => {
   );
 };
 
-export const mapList = async (platform: platforms) => {
+export const mapList = async (platform: platforms | PlatformValues) => {
   const parsedPlatform =
     platform === platforms.Activision ? platforms.Uno : platform;
   return await sendRequest(
@@ -81,11 +87,11 @@ export const mapList = async (platform: platforms) => {
   );
 };
 
-export const matchInfo = async (matchId: string, platform: platforms) => {
-  if (platform === platforms.Steam)
-    throw new Error("Steam Doesn't exist for MW. Try `battle` instead.");
-  const parsedPlatform =
-    platform === platforms.Activision ? platforms.Uno : platform;
+export const matchInfo = async (
+  matchId: string,
+  platform: platforms | PlatformValues
+) => {
+  const parsedPlatform = parsePlayerPlatform(platform);
   return await sendRequest(
     `/crm/cod/v2/title/mw/platform/${parsedPlatform}/fullMatch/mp/${matchId}/en`
   );

@@ -1,8 +1,11 @@
 import { sendRequest } from "./api";
-import { platforms } from "./types";
-import { parsePlayer } from "./utils";
+import { platforms, PlatformValues } from "./types";
+import { parsePlayer, parsePlayerPlatform } from "./utils";
 
-export const fullData = async (gamertag: string, platform: platforms) => {
+export const fullData = async (
+  gamertag: string,
+  platform: platforms | PlatformValues
+) => {
   const { lookupType, parsedGamertag, parsedPlatform } = parsePlayer(
     gamertag,
     platform
@@ -14,7 +17,7 @@ export const fullData = async (gamertag: string, platform: platforms) => {
 
 export const combatHistory = async (
   gamertag: string,
-  platform: platforms,
+  platform: platforms | PlatformValues,
   startTime = 0,
   endTime = 0
 ) => {
@@ -38,7 +41,7 @@ export const combatHistoryWithDate = async (
 
 export const breakdown = async (
   gamertag: string,
-  platform: platforms,
+  platform: platforms | PlatformValues,
   startTime = 0,
   endTime = 0
 ) => {
@@ -55,12 +58,15 @@ export const breakdownWithDate = async (
   gamertag: string,
   startTime: number,
   endTime: number,
-  platform: platforms
+  platform: platforms | PlatformValues
 ) => {
   return breakdown(gamertag, platform, startTime, endTime);
 };
 
-export const seasonloot = async (gamertag: string, platform: platforms) => {
+export const seasonloot = async (
+  gamertag: string,
+  platform: platforms | PlatformValues
+) => {
   const { lookupType, parsedGamertag, parsedPlatform } = parsePlayer(
     gamertag,
     platform
@@ -70,21 +76,18 @@ export const seasonloot = async (gamertag: string, platform: platforms) => {
   );
 };
 
-export const mapList = async (platform: platforms) => {
-  if (platform === platforms.Steam)
-    throw new Error("Steam Doesn't exist for CW. Try `battle` instead.");
-  const parsedPlatform =
-    platform === platforms.Activision ? platforms.Uno : platform;
+export const mapList = async (platform: platforms | PlatformValues) => {
+  const parsedPlatform = parsePlayerPlatform(platform);
   return await sendRequest(
     `/ce/v1/title/cw/platform/${parsedPlatform}/gameType/mp/communityMapData/availability`
   );
 };
 
-export const matchInfo = async (matchId: string, platform: platforms) => {
-  if (platform === platforms.Steam)
-    throw new Error("Steam Doesn't exist for CW. Try `battle` instead.");
-  const parsedPlatform =
-    platform === platforms.Activision ? platforms.Uno : platform;
+export const matchInfo = async (
+  matchId: string,
+  platform: platforms | PlatformValues
+) => {
+  const parsedPlatform = parsePlayerPlatform(platform);
   return await sendRequest(
     `/crm/cod/v2/title/cw/platform/${parsedPlatform}/fullMatch/mp/${matchId}/en`
   );

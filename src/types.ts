@@ -1,4 +1,4 @@
-export enum platforms {
+export const enum platforms {
   All = "all",
   Activision = "acti",
   Battlenet = "battle",
@@ -15,6 +15,15 @@ export enum friendActions {
   Block = "block",
   Unblock = "unblock",
 }
+
+export type PlatformValues =
+  | "all"
+  | "acti"
+  | "battle"
+  | "psn"
+  | "steam"
+  | "uno"
+  | "xbl";
 
 export type MatchPlayerStats = {
   kills: number;
@@ -110,7 +119,7 @@ export type MatchIndex = {
   map: string;
 };
 
-export interface FullData {
+export type FullData = {
   title: string;
   platform: platforms;
   username: string;
@@ -149,11 +158,11 @@ export interface FullData {
     map: any;
   };
   engagement: any;
-}
+};
 
-export interface CombatHistory {
+export type CombatHistory = {
   summary: {
     [key: string]: ModeStats;
   };
   matches: Match[];
-}
+};
