@@ -1,7 +1,7 @@
 {
-  "name": "call-of-duty-api",
-  "version": "3.2.2",
-  "description": "NodeJS Wrapper for the Call Of Duty API.",
+  "name": "call-of-duty",
+  "version": "0.1.0",
+  "description": "Type safe wrapper for the private Call Of Duty API. Drop-in replacement to https://www.npmjs.com/package/call-of-duty-api.",
   "main": "dist/index",
   "types": "dist/index",
   "files": [
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Lierrmm/Node-CallOfDuty.git"
+    "url": "git+https://github.com/diegofigs/call-of-duty.git"
   },
   "keywords": [
     "br",
@@ -35,14 +35,14 @@
     "Raven"
   ],
   "bugs": {
-    "url": "https://github.com/Lierrmm/Node-CallOfDuty/issues"
+    "url": "https://github.com/diegofigs/call-of-duty/issues"
   },
   "homepage": "https://codapi.dev",
   "funding": {
     "type": "github",
-    "url": "https://github.com/sponsors/Lierrmm"
+    "url": "https://github.com/sponsors/diegofigs"
   },
-  "author": "Liam Gaskell",
+  "author": "Diego Figueroa",
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^17.0.45",
