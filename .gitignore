@@ -1,5 +1,2 @@
-/node_modules
-/package-lock.json
-/?.?s
-/dist
-/test.mjs
+node_modules
+dist
