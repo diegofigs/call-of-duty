@@ -1,6 +1,9 @@
-import { platforms } from "./types";
+import { PlatformValues, platforms } from "./types";
 
-export const isConsolePlatform = (platform: platforms) => {
+type ConsolePlatform = Extract<PlatformValues, "psn" | "xbl" | "all">;
+export const isConsolePlatform = (
+  platform: platforms | PlatformValues
+): platform is ConsolePlatform => {
   return (
     platform === platforms.PSN ||
     platform === platforms.XBOX ||
@@ -10,16 +13,20 @@ export const isConsolePlatform = (platform: platforms) => {
 
 export const parsePlayer = (
   gamertag: string,
-  platform: platforms
+  platform: platforms | PlatformValues
 ) => {
-  if (platform === platforms.Steam)
-    throw new Error("Steam Doesn't exist for MW. Try `battle` instead.");
-
+  const parsedPlatform = parsePlayerPlatform(platform);
   const lookupType = platform === platforms.Uno ? "id" : "gamer";
   const parsedGamertag = isConsolePlatform(platform)
     ? gamertag
     : encodeURIComponent(gamertag);
-  const parsedPlatform =
-    platform === platforms.Activision ? platforms.Uno : platform;
+
   return { lookupType, parsedGamertag, parsedPlatform };
+};
+
+export const parsePlayerPlatform = (platform: platforms | PlatformValues) => {
+  if (platform === platforms.Steam)
+    throw new Error("Steam Doesn't exist for MW. Try `battle` instead.");
+
+  return platform === platforms.Activision ? platforms.Uno : platform;
 };

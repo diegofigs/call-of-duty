@@ -5,15 +5,18 @@ import {
   MatchIndex,
   FullData,
   CombatHistory,
+  PlatformValues,
 } from "./types";
-import { parsePlayer } from "./utils";
+import { parsePlayer, parsePlayerPlatform } from "./utils";
 
 export async function fullData(
   gamertag: string,
-  platform: platforms
+  platform: platforms | PlatformValues
 ): Promise<{ success: string; data: FullData }> {
-  const { lookupType, parsedGamertag, parsedPlatform } =
-    parsePlayer(gamertag, platform);
+  const { lookupType, parsedGamertag, parsedPlatform } = parsePlayer(
+    gamertag,
+    platform
+  );
   return await sendRequest(
     `/stats/cod/v1/title/mw/platform/${parsedPlatform}/${lookupType}/${parsedGamertag}/profile/type/wz`
   );
@@ -21,12 +24,14 @@ export async function fullData(
 
 export async function combatHistory(
   gamertag: string,
-  platform: platforms,
+  platform: platforms | PlatformValues,
   startTime = 0,
   endTime = 0
 ): Promise<{ success: string; data: CombatHistory }> {
-  const { lookupType, parsedGamertag, parsedPlatform } =
-    parsePlayer(gamertag, platform);
+  const { lookupType, parsedGamertag, parsedPlatform } = parsePlayer(
+    gamertag,
+    platform
+  );
   return sendRequest(
     `/crm/cod/v2/title/mw/platform/${parsedPlatform}/${lookupType}/${parsedGamertag}/matches/wz/start/${startTime}/end/${endTime}/details`
   );
@@ -36,19 +41,21 @@ export async function combatHistoryWithDate(
   gamertag: string,
   startTime: number,
   endTime: number,
-  platform: platforms
+  platform: platforms | PlatformValues
 ) {
   return combatHistory(gamertag, platform, startTime, endTime);
 }
 
 export async function breakdown(
   gamertag: string,
-  platform: platforms,
+  platform: platforms | PlatformValues,
   startTime = 0,
   endTime = 0
 ): Promise<{ success: string; data: Array<MatchIndex> }> {
-  const { lookupType, parsedGamertag, parsedPlatform } =
-    parsePlayer(gamertag, platform);
+  const { lookupType, parsedGamertag, parsedPlatform } = parsePlayer(
+    gamertag,
+    platform
+  );
   return sendRequest(
     `/crm/cod/v2/title/mw/platform/${parsedPlatform}/${lookupType}/${parsedGamertag}/matches/wz/start/${startTime}/end/${endTime}`
   );
@@ -58,7 +65,7 @@ export async function breakdownWithDate(
   gamertag: string,
   startTime: number,
   endTime: number,
-  platform: platforms
+  platform: platforms | PlatformValues
 ) {
   return breakdown(gamertag, platform, startTime, endTime);
 }
@@ -69,12 +76,9 @@ interface WarzoneMatchInfo {
 
 export async function matchInfo(
   matchId: string,
-  platform: platforms
+  platform: platforms | PlatformValues
 ): Promise<{ success: string; data: WarzoneMatchInfo }> {
-  if (platform === platforms.Steam)
-    throw new Error("Steam Doesn't exist for MW. Try `battle` instead.");
-  const parsedPlatform =
-    platform === platforms.Activision ? platforms.Uno : platform;
+  const parsedPlatform = parsePlayerPlatform(platform);
   return await sendRequest(
     `/crm/cod/v2/title/mw/platform/${parsedPlatform}/fullMatch/wz/${matchId}/en`
   );
