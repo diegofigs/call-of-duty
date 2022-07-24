@@ -23,4 +23,4 @@ jobs:
         node-version: ${{ matrix.version }}
         cache: 'npm'
     - run: npm ci
-    - run: npm test
+    - run: COD_SSO_TOKEN=${{ secrets.COD_SSO_TOKEN }} npm test
