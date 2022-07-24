@@ -444,14 +444,6 @@ class ALT {
         if (platform === platforms.Uno || platform === platforms.Activision) platform = platforms.Uno;
         return await sendRequest(`/crm/cod/v2/platform/${platform}/username/${gamertag}/search`);
     }
-
-    cleanWeapon = async (weapon: string): Promise<string> => {
-        //@ts-ignore
-        const foundWeapon: string = weaponMappings["All Weapons"][weapon];
-        if (!foundWeapon)
-            return weapon;
-        return foundWeapon;
-    }
 }
 
 const Warzone = new WZ();
