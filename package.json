@@ -10,8 +10,7 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "tsc",
-    "test": "jest",
-    "prepublishOnly": "npm run build"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
