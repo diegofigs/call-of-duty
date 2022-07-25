@@ -57,5 +57,8 @@
       "main",
       "next"
     ]
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
