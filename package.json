@@ -17,17 +17,13 @@
     "url": "git+https://github.com/diegofigs/call-of-duty.git"
   },
   "keywords": [
-    "br",
     "warzone",
     "call-of-duty",
     "call of duty",
     "modern warfare",
     "black ops",
-    "iw",
     "battle royale",
-    "Cold War",
-    "cw",
-    "3arc",
+    "cold war",
     "vanguard",
     "Treyarch",
     "Infinity Ward",
@@ -37,7 +33,6 @@
   "bugs": {
     "url": "https://github.com/diegofigs/call-of-duty/issues"
   },
-  "homepage": "https://codapi.dev",
   "funding": {
     "type": "github",
     "url": "https://github.com/sponsors/diegofigs"
