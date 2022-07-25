@@ -1,3 +1,3 @@
 export default async function () {
-  jest.setTimeout(10000);
+  jest.setTimeout(15000);
 };
