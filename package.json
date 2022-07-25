@@ -1,5 +1,5 @@
 {
-  "name": "call-of-duty",
+  "name": "@diegofigs/call-of-duty",
   "version": "0.1.0",
   "description": "Type safe wrapper for the private Call Of Duty API. Drop-in replacement to https://www.npmjs.com/package/call-of-duty-api.",
   "main": "dist/index.js",
