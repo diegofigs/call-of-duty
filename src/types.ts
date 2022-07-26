@@ -1,4 +1,4 @@
-export const enum platforms {
+export enum platforms {
   All = "all",
   Activision = "acti",
   Battlenet = "battle",
