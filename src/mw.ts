@@ -1,4 +1,4 @@
-import { sendRequest } from "./api";
+import { getRequest } from "./api";
 import {
   CombatHistory,
   FullData,
@@ -16,7 +16,7 @@ export async function fullData(
     gamertag,
     platform
   );
-  return sendRequest(
+  return getRequest(
     `/stats/cod/v1/title/mw/platform/${parsedPlatform}/${lookupType}/${parsedGamertag}/profile/type/mp`
   );
 }
@@ -31,7 +31,7 @@ export async function combatHistory(
     gamertag,
     platform
   );
-  return sendRequest(
+  return getRequest(
     `/crm/cod/v2/title/mw/platform/${parsedPlatform}/${lookupType}/${parsedGamertag}/matches/mp/start/${startTime}/end/${endTime}/details`
   );
 }
@@ -55,7 +55,7 @@ export async function breakdown(
     gamertag,
     platform
   );
-  return sendRequest(
+  return getRequest(
     `/crm/cod/v2/title/mw/platform/${parsedPlatform}/${lookupType}/${parsedGamertag}/matches/mp/start/${startTime}/end/${endTime}`
   );
 }
@@ -74,7 +74,7 @@ export const seasonloot = async (gamertag: string, platform: platforms) => {
     gamertag,
     platform
   );
-  return await sendRequest(
+  return await getRequest(
     `/loot/title/mw/platform/${parsedPlatform}/${lookupType}/${parsedGamertag}/status/en`
   );
 };
@@ -82,7 +82,7 @@ export const seasonloot = async (gamertag: string, platform: platforms) => {
 export const mapList = async (platform: platforms | PlatformValues) => {
   const parsedPlatform =
     platform === platforms.Activision ? platforms.Uno : platform;
-  return await sendRequest(
+  return await getRequest(
     `/ce/v1/title/mw/platform/${parsedPlatform}/gameType/mp/communityMapData/availability`
   );
 };
@@ -92,7 +92,7 @@ export const matchInfo = async (
   platform: platforms | PlatformValues
 ) => {
   const parsedPlatform = parsePlayerPlatform(platform);
-  return await sendRequest(
+  return await getRequest(
     `/crm/cod/v2/title/mw/platform/${parsedPlatform}/fullMatch/mp/${matchId}/en`
   );
 };
