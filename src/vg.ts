@@ -11,7 +11,7 @@ import { parsePlayer, parsePlayerPlatform } from "./utils";
 export const fullData = async (
   gamertag: string,
   platform: platforms | PlatformValues
-): Promise<{ success: string; data: FullData }> => {
+): Promise<{ data: FullData }> => {
   const { lookupType, parsedGamertag, parsedPlatform } = parsePlayer(
     gamertag,
     platform
@@ -26,7 +26,7 @@ export const combatHistory = async (
   platform: platforms | PlatformValues,
   startTime = 0,
   endTime = 0
-): Promise<{ success: string; data: CombatHistory }> => {
+): Promise<{ data: CombatHistory }> => {
   const { lookupType, parsedGamertag, parsedPlatform } = parsePlayer(
     gamertag,
     platform
@@ -50,7 +50,7 @@ export const breakdown = async (
   platform: platforms | PlatformValues,
   startTime = 0,
   endTime = 0
-): Promise<{ success: string; data: Array<MatchIndex> }> => {
+): Promise<{ data: Array<MatchIndex> }> => {
   const { lookupType, parsedGamertag, parsedPlatform } = parsePlayer(
     gamertag,
     platform
