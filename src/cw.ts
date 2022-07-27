@@ -71,14 +71,14 @@ export const seasonloot = async (
     gamertag,
     platform
   );
-  return await getRequest(
+  return getRequest(
     `/loot/title/cw/platform/${parsedPlatform}/${lookupType}/${parsedGamertag}/status/en`
   );
 };
 
 export const mapList = async (platform: platforms | PlatformValues) => {
   const parsedPlatform = parsePlayerPlatform(platform);
-  return await getRequest(
+  return getRequest(
     `/ce/v1/title/cw/platform/${parsedPlatform}/gameType/mp/communityMapData/availability`
   );
 };
@@ -88,7 +88,7 @@ export const matchInfo = async (
   platform: platforms | PlatformValues
 ) => {
   const parsedPlatform = parsePlayerPlatform(platform);
-  return await getRequest(
+  return getRequest(
     `/crm/cod/v2/title/cw/platform/${parsedPlatform}/fullMatch/mp/${matchId}/en`
   );
 };

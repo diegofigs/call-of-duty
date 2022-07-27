@@ -74,7 +74,7 @@ export const seasonloot = async (gamertag: string, platform: platforms) => {
     gamertag,
     platform
   );
-  return await getRequest(
+  return getRequest(
     `/loot/title/mw/platform/${parsedPlatform}/${lookupType}/${parsedGamertag}/status/en`
   );
 };
@@ -82,7 +82,7 @@ export const seasonloot = async (gamertag: string, platform: platforms) => {
 export const mapList = async (platform: platforms | PlatformValues) => {
   const parsedPlatform =
     platform === platforms.Activision ? platforms.Uno : platform;
-  return await getRequest(
+  return getRequest(
     `/ce/v1/title/mw/platform/${parsedPlatform}/gameType/mp/communityMapData/availability`
   );
 };
@@ -92,7 +92,7 @@ export const matchInfo = async (
   platform: platforms | PlatformValues
 ) => {
   const parsedPlatform = parsePlayerPlatform(platform);
-  return await getRequest(
+  return getRequest(
     `/crm/cod/v2/title/mw/platform/${parsedPlatform}/fullMatch/mp/${matchId}/en`
   );
 };

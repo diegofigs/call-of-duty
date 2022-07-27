@@ -79,7 +79,7 @@ export async function matchInfo(
   platform: platforms | PlatformValues
 ): Promise<{ success: string; data: WarzoneMatchInfo }> {
   const parsedPlatform = parsePlayerPlatform(platform);
-  return await getRequest(
+  return getRequest(
     `/crm/cod/v2/title/mw/platform/${parsedPlatform}/fullMatch/wz/${matchId}/en`
   );
 }
