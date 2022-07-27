@@ -17,7 +17,7 @@
   "unpkg": "./dist/index.umd.js",
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "microbundle src/index.ts src/mw.ts src/wz.ts src/cw.ts src/vg.ts",
+    "build": "microbundle --format=esm,cjs,modern --target=node",
     "dev": "microbundle watch",
     "test": "jest"
   },
@@ -26,9 +26,9 @@
     "url": "git+https://github.com/diegofigs/call-of-duty.git"
   },
   "keywords": [
-    "warzone",
     "call-of-duty",
     "call of duty",
+    "warzone",
     "modern warfare",
     "black ops",
     "battle royale",
