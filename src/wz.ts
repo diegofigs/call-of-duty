@@ -1,4 +1,4 @@
-import { sendRequest } from "./api";
+import { getRequest } from "./api";
 import {
   MatchPlayer,
   platforms,
@@ -12,12 +12,12 @@ import { parsePlayer, parsePlayerPlatform } from "./utils";
 export async function fullData(
   gamertag: string,
   platform: platforms | PlatformValues
-): Promise<{ success: string; data: FullData }> {
+): Promise<{ data: FullData }> {
   const { lookupType, parsedGamertag, parsedPlatform } = parsePlayer(
     gamertag,
     platform
   );
-  return await sendRequest(
+  return getRequest(
     `/stats/cod/v1/title/mw/platform/${parsedPlatform}/${lookupType}/${parsedGamertag}/profile/type/wz`
   );
 }
@@ -27,12 +27,12 @@ export async function combatHistory(
   platform: platforms | PlatformValues,
   startTime = 0,
   endTime = 0
-): Promise<{ success: string; data: CombatHistory }> {
+): Promise<{ data: CombatHistory }> {
   const { lookupType, parsedGamertag, parsedPlatform } = parsePlayer(
     gamertag,
     platform
   );
-  return sendRequest(
+  return getRequest(
     `/crm/cod/v2/title/mw/platform/${parsedPlatform}/${lookupType}/${parsedGamertag}/matches/wz/start/${startTime}/end/${endTime}/details`
   );
 }
@@ -51,12 +51,12 @@ export async function breakdown(
   platform: platforms | PlatformValues,
   startTime = 0,
   endTime = 0
-): Promise<{ success: string; data: Array<MatchIndex> }> {
+): Promise<{ data: Array<MatchIndex> }> {
   const { lookupType, parsedGamertag, parsedPlatform } = parsePlayer(
     gamertag,
     platform
   );
-  return sendRequest(
+  return getRequest(
     `/crm/cod/v2/title/mw/platform/${parsedPlatform}/${lookupType}/${parsedGamertag}/matches/wz/start/${startTime}/end/${endTime}`
   );
 }
@@ -77,9 +77,9 @@ interface WarzoneMatchInfo {
 export async function matchInfo(
   matchId: string,
   platform: platforms | PlatformValues
-): Promise<{ success: string; data: WarzoneMatchInfo }> {
+): Promise<{ data: WarzoneMatchInfo }> {
   const parsedPlatform = parsePlayerPlatform(platform);
-  return await sendRequest(
+  return getRequest(
     `/crm/cod/v2/title/mw/platform/${parsedPlatform}/fullMatch/wz/${matchId}/en`
   );
 }

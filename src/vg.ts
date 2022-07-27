@@ -1,4 +1,4 @@
-import { sendRequest } from "./api";
+import { getRequest } from "./api";
 import {
   CombatHistory,
   FullData,
@@ -11,12 +11,12 @@ import { parsePlayer, parsePlayerPlatform } from "./utils";
 export const fullData = async (
   gamertag: string,
   platform: platforms | PlatformValues
-): Promise<{ success: string; data: FullData }> => {
+): Promise<{ data: FullData }> => {
   const { lookupType, parsedGamertag, parsedPlatform } = parsePlayer(
     gamertag,
     platform
   );
-  return await sendRequest(
+  return getRequest(
     `/stats/cod/v1/title/vg/platform/${parsedPlatform}/${lookupType}/${parsedGamertag}/profile/type/mp`
   );
 };
@@ -26,12 +26,12 @@ export const combatHistory = async (
   platform: platforms | PlatformValues,
   startTime = 0,
   endTime = 0
-): Promise<{ success: string; data: CombatHistory }> => {
+): Promise<{ data: CombatHistory }> => {
   const { lookupType, parsedGamertag, parsedPlatform } = parsePlayer(
     gamertag,
     platform
   );
-  return await sendRequest(
+  return getRequest(
     `/crm/cod/v2/title/vg/platform/${parsedPlatform}/${lookupType}/${parsedGamertag}/matches/mp/start/${startTime}/end/${endTime}/details`
   );
 };
@@ -50,12 +50,12 @@ export const breakdown = async (
   platform: platforms | PlatformValues,
   startTime = 0,
   endTime = 0
-): Promise<{ success: string; data: Array<MatchIndex> }> => {
+): Promise<{ data: Array<MatchIndex> }> => {
   const { lookupType, parsedGamertag, parsedPlatform } = parsePlayer(
     gamertag,
     platform
   );
-  return await sendRequest(
+  return getRequest(
     `/crm/cod/v2/title/vg/platform/${parsedPlatform}/${lookupType}/${parsedGamertag}/matches/mp/start/${startTime}/end/${endTime}`
   );
 };
@@ -77,14 +77,14 @@ export const seasonloot = async (
     gamertag,
     platform
   );
-  return await sendRequest(
+  return getRequest(
     `/loot/title/vg/platform/${parsedPlatform}/${lookupType}/${parsedGamertag}/status/en`
   );
 };
 
 export const mapList = async (platform: platforms | PlatformValues) => {
   const parsedPlatform = parsePlayerPlatform(platform);
-  return await sendRequest(
+  return getRequest(
     `/ce/v1/title/vg/platform/${parsedPlatform}/gameType/mp/communityMapData/availability`
   );
 };
@@ -94,7 +94,7 @@ export const matchInfo = async (
   platform: platforms | PlatformValues
 ) => {
   const parsedPlatform = parsePlayerPlatform(platform);
-  return await sendRequest(
+  return getRequest(
     `/crm/cod/v2/title/vg/platform/${parsedPlatform}/fullMatch/mp/${matchId}/en`
   );
 };
