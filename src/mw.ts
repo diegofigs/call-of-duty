@@ -6,7 +6,7 @@ import {
   platforms,
   PlatformValues,
 } from "./types";
-import { parsePlayer, parsePlayerPlatform } from "./utils";
+import { parsePlayer, parsePlayerPlatform, parseProfilePlatform } from "./utils";
 
 export async function fullData(
   gamertag: string,
@@ -80,8 +80,7 @@ export const seasonloot = async (gamertag: string, platform: platforms) => {
 };
 
 export const mapList = async (platform: platforms | PlatformValues) => {
-  const parsedPlatform =
-    platform === platforms.Activision ? platforms.Uno : platform;
+  const parsedPlatform = parseProfilePlatform(platform);
   return getRequest(
     `/ce/v1/title/mw/platform/${parsedPlatform}/gameType/mp/communityMapData/availability`
   );
