@@ -15,6 +15,26 @@ export async function getRequest(path: string) {
     if (!baseSsoToken) throw new Error("Not Logged In.");
     const cookie = `${baseCookie}ACT_SSO_COOKIE=${baseSsoToken};XSRF-TOKEN=${fakeXSRF};API_CSRF_TOKEN=${fakeXSRF};ACT_SSO_EVENT="LOGIN_SUCCESS:1644346543228";ACT_SSO_COOKIE_EXPIRY=1645556143194;comid=cod;ssoDevId=63025d09c69f47dfa2b8d5520b5b73e4;tfa_enrollment_seen=true;gtm.custom.bot.flag=human;`;
     const response = await superagent(baseUrl + path)
+      .set("content-type", "application/json")
+      .set("user-agent", userAgent)
+      .set("X-XSRF-TOKEN", fakeXSRF)
+      .set("X-CSRF-TOKEN", fakeXSRF)
+      .set("Atvi-Auth", baseSsoToken)
+      .set("ACT_SSO_COOKIE", baseSsoToken)
+      .set("atkn", baseSsoToken)
+      .set("cookie", cookie);
+    return response.body;
+  } catch (error) {
+
+  }
+}
+
+export async function postRequest(path: string, body?: string | object) {
+  try {
+    if (!baseSsoToken) throw new Error("Not Logged In.");
+    const cookie = `${baseCookie}ACT_SSO_COOKIE=${baseSsoToken};XSRF-TOKEN=${fakeXSRF};API_CSRF_TOKEN=${fakeXSRF};ACT_SSO_EVENT="LOGIN_SUCCESS:1644346543228";ACT_SSO_COOKIE_EXPIRY=1645556143194;comid=cod;ssoDevId=63025d09c69f47dfa2b8d5520b5b73e4;tfa_enrollment_seen=true;gtm.custom.bot.flag=human;`;
+    const response = await superagent.post(baseUrl + path)
+      .send(body)
       .set("content-type", "text/plain")
       .set("user-agent", userAgent)
       .set("X-XSRF-TOKEN", fakeXSRF)
@@ -25,7 +45,7 @@ export async function getRequest(path: string) {
       .set("cookie", cookie);
     return response.body;
   } catch (error) {
-    
+
   }
 }
 
@@ -35,3 +55,6 @@ export function login(ssoToken: string) {
   return true;
 }
 
+export function getToken() {
+  return baseSsoToken;
+}
