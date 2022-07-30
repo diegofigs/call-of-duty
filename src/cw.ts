@@ -1,11 +1,11 @@
 import { getRequest } from "./api";
-import { platforms, PlatformValues } from "./types";
+import { CombatHistory, FullData, MatchIndex, platforms, PlatformValues } from "./types";
 import { parsePlayer, parsePlayerPlatform } from "./utils";
 
 export const fullData = async (
   gamertag: string,
   platform: platforms | PlatformValues
-) => {
+): Promise<{ data: FullData }> => {
   const { lookupType, parsedGamertag, parsedPlatform } = parsePlayer(
     gamertag,
     platform
@@ -20,7 +20,7 @@ export const combatHistory = async (
   platform: platforms | PlatformValues,
   startTime = 0,
   endTime = 0
-) => {
+): Promise<{ data: CombatHistory }> => {
   const { lookupType, parsedGamertag, parsedPlatform } = parsePlayer(
     gamertag,
     platform
@@ -44,7 +44,7 @@ export const breakdown = async (
   platform: platforms | PlatformValues,
   startTime = 0,
   endTime = 0
-) => {
+): Promise<{ data: Array<MatchIndex> }> => {
   const { lookupType, parsedGamertag, parsedPlatform } = parsePlayer(
     gamertag,
     platform
