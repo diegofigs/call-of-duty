@@ -1,13 +1,13 @@
 import { PlatformValues, platforms } from "./types";
 
-type ConsolePlatform = Extract<PlatformValues, "psn" | "xbl" | "all">;
-export const isConsolePlatform = (
+type PcPlayerPlatform = Extract<PlatformValues, "battle" | "acti" | "uno">;
+export const isPcPlayerPlatform = (
   platform: platforms | PlatformValues
-): platform is ConsolePlatform => {
+): platform is PcPlayerPlatform => {
   return (
-    platform === platforms.PSN ||
-    platform === platforms.XBOX ||
-    platform === platforms.All
+    platform === platforms.Battlenet ||
+    platform === platforms.Activision ||
+    platform === platforms.Uno
   );
 };
 
@@ -16,17 +16,25 @@ export const parsePlayer = (
   platform: platforms | PlatformValues
 ) => {
   const parsedPlatform = parsePlayerPlatform(platform);
-  const lookupType = platform === platforms.Uno ? "id" : "gamer";
-  const parsedGamertag = isConsolePlatform(platform)
-    ? gamertag
-    : encodeURIComponent(gamertag);
+  const lookupType = parseLookupType(platform);
+  const parsedGamertag = isPcPlayerPlatform(platform)
+    ? encodeURIComponent(gamertag)
+    : gamertag;
 
   return { lookupType, parsedGamertag, parsedPlatform };
 };
 
 export const parsePlayerPlatform = (platform: platforms | PlatformValues) => {
   if (platform === platforms.Steam)
-    throw new Error("Steam Doesn't exist for MW. Try `battle` instead.");
+    throw new Error("Steam doesn't exist for target game. Try `battle` instead.");
 
   return platform === platforms.Activision ? platforms.Uno : platform;
 };
+
+export const parseProfilePlatform = (platform: platforms | PlatformValues) => {
+  return platform === platforms.Activision ? platforms.Uno : platform;
+}
+
+export const parseLookupType = (platform: platforms | PlatformValues) => {
+  return platform === platforms.Uno ? "id" : "gamer";
+}
