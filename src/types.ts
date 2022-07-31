@@ -166,3 +166,7 @@ export type CombatHistory = {
   };
   matches: Match[];
 };
+
+export type MatchInfo = {
+  allPlayers: MatchPlayer[];
+}
