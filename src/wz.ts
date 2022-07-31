@@ -1,11 +1,11 @@
 import { getRequest } from "./api";
 import {
-  MatchPlayer,
   platforms,
   MatchIndex,
   FullData,
   CombatHistory,
   PlatformValues,
+  MatchInfo,
 } from "./types";
 import { parsePlayer, parsePlayerPlatform } from "./utils";
 
@@ -70,14 +70,10 @@ export async function breakdownWithDate(
   return breakdown(gamertag, platform, startTime, endTime);
 }
 
-interface WarzoneMatchInfo {
-  allPlayers: MatchPlayer[];
-}
-
 export async function matchInfo(
   matchId: string,
   platform: platforms | PlatformValues
-): Promise<{ data: WarzoneMatchInfo }> {
+): Promise<{ data: MatchInfo }> {
   const parsedPlatform = parsePlayerPlatform(platform);
   return getRequest(
     `/crm/cod/v2/title/mw/platform/${parsedPlatform}/fullMatch/wz/${matchId}/en`
