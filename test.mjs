@@ -1,5 +1,5 @@
 import { argv } from "process";
-import { Warzone, ModernWarfare, Vanguard, ColdWar } from "./dist/index.js";
+import { Warzone, ModernWarfare, Vanguard, ColdWar, Me } from "./dist/index.js";
 
 if (process.argv.length < 4) {
   console.error(`Missing argument, you need to provide the filename of the adapter to test.
@@ -17,6 +17,8 @@ const mwBreakdown = await ModernWarfare.breakdownWithDate(argv[2], 0, 0, argv[3]
 const vgCombat = await Vanguard.combatHistory(argv[2], argv[3]);
 const cwCombat = await ColdWar.combatHistoryWithDate(argv[2], 0, 0, argv[3]);
 
+const userProfile = await Me.connectedAccounts(argv[2], argv[3]);
+console.log("User Profile: ", userProfile.data)
 console.log("WZ Profile: ", wzProfile.data.platform, wzProfile.data.type);
 console.log("WZ Breakdown: " + wzBreakdown.data.length);
 console.log("MW Profile: ", mwProfile.data.platform, mwProfile.data.type);
