@@ -22,6 +22,7 @@
     "test": "jest",
     "docs": "typedoc src/index.ts"
   },
+  "homepage": "https://diegofigs.github.io/call-of-duty",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/diegofigs/call-of-duty.git"
