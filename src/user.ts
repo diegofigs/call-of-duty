@@ -6,10 +6,10 @@ import {
   parseProfilePlatform,
 } from "./utils";
 
-export const friendFeed = async (
+export async function friendFeed(
   gamertag: string,
   platform: platforms | PlatformValues
-) => {
+) {
   const parsedGamertag = isPcPlayerPlatform(platform)
     ? encodeURIComponent(gamertag)
     : gamertag;
@@ -17,22 +17,49 @@ export const friendFeed = async (
   return getRequest(
     `/userfeed/v1/friendFeed/platform/${parsedPlatform}/gamer/${parsedGamertag}/friendFeedEvents/en`
   );
-};
+}
 
-export const eventFeed = async () => {
+export async function eventFeed() {
   const baseSsoToken = getToken();
   return getRequest(`/userfeed/v1/friendFeed/rendered/en/${baseSsoToken}`);
+}
+
+export type Identities = {
+  titleIdentities: {
+    title: string;
+    platform: string;
+    username: string;
+    activeDate: number;
+    activityType: string;
+    id: null;
+  }[];
 };
 
-export const loggedInIdentities = async () => {
+/**
+ * Helper method to search for player profiles tied to sso token
+ *
+ * @public
+ */
+export async function loggedInIdentities(): Promise<{ data: Identities }> {
   const baseSsoToken = getToken();
   return getRequest(`/crm/cod/v2/identities/${baseSsoToken}`);
+}
+
+export type Points = {
+  codPoints: number;
 };
 
-export const codPoints = async (
+/**
+ * Helper method to get a player's cod points balance
+ * @param gamertag - player's in-game username
+ * @param platform - player's platform
+ *
+ * @public
+ */
+export async function codPoints(
   gamertag: string,
   platform: platforms | PlatformValues
-) => {
+): Promise<{ data: Points }> {
   const parsedGamertag = isPcPlayerPlatform(platform)
     ? encodeURIComponent(gamertag)
     : gamertag;
@@ -40,12 +67,25 @@ export const codPoints = async (
   return getRequest(
     `/inventory/v1/title/mw/platform/${parsedPlatform}/gamer/${parsedGamertag}/currency`
   );
+}
+
+export type Accounts = {
+  [key in Exclude<PlatformValues, "all" | "steam" | "acti">]: {
+    username: string;
+  };
 };
 
-export const connectedAccounts = async (
+/**
+ * Helper method to get player's connected platform accounts
+ * @param gamertag - player's in-game username
+ * @param platform - player's platform
+ *
+ * @public
+ */
+export async function connectedAccounts(
   gamertag: string,
   platform: platforms | PlatformValues
-) => {
+): Promise<{ data: Accounts }> {
   const parsedGamertag = isPcPlayerPlatform(platform)
     ? encodeURIComponent(gamertag)
     : gamertag;
@@ -54,12 +94,25 @@ export const connectedAccounts = async (
   return getRequest(
     `/crm/cod/v2/accounts/platform/${parsedPlatform}/${lookupType}/${parsedGamertag}`
   );
+}
+
+export type Settings = {
+  [key in Exclude<PlatformValues, "all" | "steam" | "acti">]: {
+    [setting: string]: string;
+  };
 };
 
-export const settings = async (
+/**
+ * Helper method to get player's connected platform account's settings.
+ * @param gamertag - player's in-game username
+ * @param platform - player's platform
+ *
+ * @public
+ */
+export async function settings(
   gamertag: string,
   platform: platforms | PlatformValues
-) => {
+): Promise<{ data: Settings }> {
   const parsedGamertag = isPcPlayerPlatform(platform)
     ? encodeURIComponent(gamertag)
     : gamertag;
@@ -67,13 +120,13 @@ export const settings = async (
   return getRequest(
     `/preferences/v1/platform/${parsedPlatform}/gamer/${parsedGamertag}/list`
   );
-};
+}
 
-export const friendAction = async (
+export async function friendAction(
   gamertag: string,
   platform: platforms,
   action: friendActions
-) => {
+) {
   const lookupType = parseLookupType(platform);
   const parsedGamertag = isPcPlayerPlatform(platform)
     ? encodeURIComponent(gamertag)
@@ -83,4 +136,4 @@ export const friendAction = async (
     `/codfriends/v1/${action}/${parsedPlatform}/${lookupType}/${parsedGamertag}`,
     {}
   );
-};
+}
