@@ -1,3 +1,7 @@
+/**
+ * Valid platform values, used internally to delimit
+ * function usage under different contexts.
+ */
 export enum platforms {
   All = "all",
   Activision = "acti",
@@ -16,6 +20,10 @@ export enum friendActions {
   Unblock = "unblock",
 }
 
+/**
+ * Valid platform string literals, leveraged
+ * by tooling to provide code hints
+ */
 export type PlatformValues =
   | "all"
   | "acti"

@@ -10,23 +10,19 @@ const userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 
 const baseCookie = "new_SiteId=cod;ACT_SSO_LOCALE=en_US;country=US;";
 const baseUrl = "https://my.callofduty.com/api/papi-client";
 
-export async function getRequest(path: string) {
-  try {
-    if (!baseSsoToken) throw new Error("Not Logged In.");
-    const cookie = `${baseCookie}ACT_SSO_COOKIE=${baseSsoToken};XSRF-TOKEN=${fakeXSRF};API_CSRF_TOKEN=${fakeXSRF};ACT_SSO_EVENT="LOGIN_SUCCESS:1644346543228";ACT_SSO_COOKIE_EXPIRY=1645556143194;comid=cod;ssoDevId=63025d09c69f47dfa2b8d5520b5b73e4;tfa_enrollment_seen=true;gtm.custom.bot.flag=human;`;
-    const response = await superagent(baseUrl + path)
-      .set("content-type", "application/json")
-      .set("user-agent", userAgent)
-      .set("X-XSRF-TOKEN", fakeXSRF)
-      .set("X-CSRF-TOKEN", fakeXSRF)
-      .set("Atvi-Auth", baseSsoToken)
-      .set("ACT_SSO_COOKIE", baseSsoToken)
-      .set("atkn", baseSsoToken)
-      .set("cookie", cookie);
-    return response.body;
-  } catch (error) {
-
-  }
+export async function getRequest<T = any>(path: string): Promise<{ data: T }> {
+  if (!baseSsoToken) throw new Error("Not Logged In.");
+  const cookie = `${baseCookie}ACT_SSO_COOKIE=${baseSsoToken};XSRF-TOKEN=${fakeXSRF};API_CSRF_TOKEN=${fakeXSRF};ACT_SSO_EVENT="LOGIN_SUCCESS:1644346543228";ACT_SSO_COOKIE_EXPIRY=1645556143194;comid=cod;ssoDevId=63025d09c69f47dfa2b8d5520b5b73e4;tfa_enrollment_seen=true;gtm.custom.bot.flag=human;`;
+  const response = await superagent(baseUrl + path)
+    .set("content-type", "application/json")
+    .set("user-agent", userAgent)
+    .set("X-XSRF-TOKEN", fakeXSRF)
+    .set("X-CSRF-TOKEN", fakeXSRF)
+    .set("Atvi-Auth", baseSsoToken)
+    .set("ACT_SSO_COOKIE", baseSsoToken)
+    .set("atkn", baseSsoToken)
+    .set("cookie", cookie);
+  return response.body;
 }
 
 export async function postRequest(path: string, body?: string | object) {
@@ -49,6 +45,11 @@ export async function postRequest(path: string, body?: string | object) {
   }
 }
 
+/**
+ * Setter function for sso token needed to call API
+ * @param ssoToken - sso token from callofduty.com
+ * @returns `false` if no token provided, `true` otherwise
+ */
 export function login(ssoToken: string) {
   if (!ssoToken || ssoToken.trim().length <= 0) return false;
   baseSsoToken = ssoToken;
