@@ -40,9 +40,9 @@ export type Identities = {
  *
  * @public
  */
-export async function loggedInIdentities(): Promise<{ data: Identities }> {
+export async function loggedInIdentities() {
   const baseSsoToken = getToken();
-  return getRequest(`/crm/cod/v2/identities/${baseSsoToken}`);
+  return getRequest<Identities>(`/crm/cod/v2/identities/${baseSsoToken}`);
 }
 
 export type Points = {
@@ -59,12 +59,12 @@ export type Points = {
 export async function codPoints(
   gamertag: string,
   platform: platforms | PlatformValues
-): Promise<{ data: Points }> {
+) {
   const parsedGamertag = isPcPlayerPlatform(platform)
     ? encodeURIComponent(gamertag)
     : gamertag;
   const parsedPlatform = parseProfilePlatform(platform);
-  return getRequest(
+  return getRequest<Points>(
     `/inventory/v1/title/mw/platform/${parsedPlatform}/gamer/${parsedGamertag}/currency`
   );
 }
@@ -85,13 +85,13 @@ export type Accounts = {
 export async function connectedAccounts(
   gamertag: string,
   platform: platforms | PlatformValues
-): Promise<{ data: Accounts }> {
+) {
   const parsedGamertag = isPcPlayerPlatform(platform)
     ? encodeURIComponent(gamertag)
     : gamertag;
   const parsedPlatform = parseProfilePlatform(platform);
   const lookupType = parseLookupType(platform);
-  return getRequest(
+  return getRequest<Accounts>(
     `/crm/cod/v2/accounts/platform/${parsedPlatform}/${lookupType}/${parsedGamertag}`
   );
 }
@@ -112,12 +112,12 @@ export type Settings = {
 export async function settings(
   gamertag: string,
   platform: platforms | PlatformValues
-): Promise<{ data: Settings }> {
+) {
   const parsedGamertag = isPcPlayerPlatform(platform)
     ? encodeURIComponent(gamertag)
     : gamertag;
   const parsedPlatform = parseProfilePlatform(platform);
-  return getRequest(
+  return getRequest<Settings>(
     `/preferences/v1/platform/${parsedPlatform}/gamer/${parsedGamertag}/list`
   );
 }

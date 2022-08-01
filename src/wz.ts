@@ -20,12 +20,12 @@ import { parsePlayer, parsePlayerPlatform } from "./utils";
 export async function fullData(
   gamertag: string,
   platform: platforms | PlatformValues
-): Promise<{ data: FullData }> {
+) {
   const { lookupType, parsedGamertag, parsedPlatform } = parsePlayer(
     gamertag,
     platform
   );
-  return getRequest(
+  return getRequest<FullData>(
     `/stats/cod/v1/title/mw/platform/${parsedPlatform}/${lookupType}/${parsedGamertag}/profile/type/wz`
   );
 }
@@ -46,12 +46,12 @@ export async function combatHistory(
   platform: platforms | PlatformValues,
   startTime = 0,
   endTime = 0
-): Promise<{ data: CombatHistory }> {
+) {
   const { lookupType, parsedGamertag, parsedPlatform } = parsePlayer(
     gamertag,
     platform
   );
-  return getRequest(
+  return getRequest<CombatHistory>(
     `/crm/cod/v2/title/mw/platform/${parsedPlatform}/${lookupType}/${parsedGamertag}/matches/wz/start/${startTime}/end/${endTime}/details`
   );
 }
@@ -91,12 +91,12 @@ export async function breakdown(
   platform: platforms | PlatformValues,
   startTime = 0,
   endTime = 0
-): Promise<{ data: Array<MatchIndex> }> {
+) {
   const { lookupType, parsedGamertag, parsedPlatform } = parsePlayer(
     gamertag,
     platform
   );
-  return getRequest(
+  return getRequest<MatchIndex[]>(
     `/crm/cod/v2/title/mw/platform/${parsedPlatform}/${lookupType}/${parsedGamertag}/matches/wz/start/${startTime}/end/${endTime}`
   );
 }
@@ -133,9 +133,9 @@ export async function breakdownWithDate(
 export async function matchInfo(
   matchId: string,
   platform: platforms | PlatformValues
-): Promise<{ data: MatchInfo }> {
+) {
   const parsedPlatform = parsePlayerPlatform(platform);
-  return getRequest(
+  return getRequest<MatchInfo>(
     `/crm/cod/v2/title/mw/platform/${parsedPlatform}/fullMatch/wz/${matchId}/en`
   );
 }
