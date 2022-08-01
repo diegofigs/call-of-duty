@@ -49,6 +49,11 @@ export async function postRequest(path: string, body?: string | object) {
   }
 }
 
+/**
+ * Setter function for sso token needed to call API
+ * @param ssoToken - sso token from callofduty.com
+ * @returns `false` if no token provided, `true` otherwise
+ */
 export function login(ssoToken: string) {
   if (!ssoToken || ssoToken.trim().length <= 0) return false;
   baseSsoToken = ssoToken;
