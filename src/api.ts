@@ -45,6 +45,7 @@ export async function postRequest(path: string, body?: string | object) {
   }
 }
 
+
 /**
  * Setter function for sso token needed to call API
  * @param ssoToken - sso token from callofduty.com
